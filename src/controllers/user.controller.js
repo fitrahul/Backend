@@ -29,12 +29,12 @@ router.post("",
 
 // get all ==>>  1. pagination   2. total number of page
 router.get("", async (req, res) => {
-    // pagination => http://localhost:4567/user?page=3&limit=4
+    // 1. pagination => http://localhost:4567/user?page=3&limit=4
     var page = +req.query.page || 1;
     var size = +req.query.limit || 4;
     var offset = (page - 1) * size;
     const user = await User.find().skip(offset).limit(size).lean().exec();
-    // total number of page
+    // 2. total number of page
     const totalPages = Math.ceil((await User.find().countDocuments().lean().exec()) / size);
     return res.status(201).send({ user, totalPages });
 })
